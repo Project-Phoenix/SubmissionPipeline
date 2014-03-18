@@ -18,20 +18,30 @@
 
 package de.phoenix.submissionpipeline;
 
-import java.security.InvalidParameterException;
+import java.util.Scanner;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+
+import de.phoenix.submissionpipeline.api.SubmissionTask;
 
 public class Core {
-
     public static void main(String[] args) {
-        System.out.println("Started!");
-        ArgumentHandler aHandler = new ArgumentHandler(args);
-        if (aHandler.getClassFiles().isEmpty()) {
-            throw new InvalidParameterException("Classes must not be empty!");
+
+        System.out.println("Started");
+        Scanner scanner = new Scanner(System.in);
+        scanner.useDelimiter("\\Z");
+        String next = scanner.next();
+        scanner.close();
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper = mapper.registerModule(new JodaModule());
+            SubmissionTask task = mapper.readValue(next, SubmissionTask.class);
+            // TODO: Handle the task
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        
-        
-        System.out.println("Ended!");
+        System.out.println("end");
     }
 
 }
