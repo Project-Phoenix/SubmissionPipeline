@@ -18,10 +18,18 @@
 
 package de.phoenix.submissionpipeline;
 
+import java.security.InvalidParameterException;
+
 public class Core {
 
     public static void main(String[] args) {
-        System.out.println("Started!.");
+        System.out.println("Started!");
+        ArgumentHandler aHandler = new ArgumentHandler(args);
+        if (aHandler.getClassFiles().isEmpty()) {
+            throw new InvalidParameterException("Classes must not be empty!");
+        }
+        
+        
         
         System.out.println("Ended!");
     }
