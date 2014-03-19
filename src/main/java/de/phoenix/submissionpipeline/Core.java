@@ -18,30 +18,51 @@
 
 package de.phoenix.submissionpipeline;
 
-import java.util.Scanner;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 
+import de.phoenix.rs.entity.PhoenixSubmissionResult;
+import de.phoenix.rs.entity.PhoenixSubmissionResult.SubmissionStatus;
 import de.phoenix.submissionpipeline.api.SubmissionTask;
+import de.phoenix.submissionpipeline.compiler.CharSequenceCompiler;
 
 public class Core {
+
     public static void main(String[] args) {
 
-        System.out.println("Started");
-        Scanner scanner = new Scanner(System.in);
-        scanner.useDelimiter("\\Z");
-        String next = scanner.next();
-        scanner.close();
+        ObjectMapper mapper = new ObjectMapper();
+
+        SubmissionTask task;
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper = mapper.registerModule(new JodaModule());
-            SubmissionTask task = mapper.readValue(next, SubmissionTask.class);
-            // TODO: Handle the task
+            task = mapper.readValue(System.in, SubmissionTask.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            CompileTask compileTask = new CompileTask(task);
+            CharSequenceCompiler<Object> compiler = compileTask.compile();
+
+            if (task.getTests().isEmpty()) {
+                writeResult(mapper, new PhoenixSubmissionResult(SubmissionStatus.COMPILED, "Everything fine!"));
+                return;
+            }
+
+            JUnitTask testTask = new JUnitTask(compiler, task);
+            PhoenixSubmissionResult result = testTask.run();
+            writeResult(mapper, result);
+        } catch (UserSubmissionException e) {
+            writeResult(mapper, new PhoenixSubmissionResult(SubmissionStatus.ERROR, e.getMessage()));
+        }
+    }
+
+    private static void writeResult(ObjectMapper mapper, PhoenixSubmissionResult result) {
+        try {
+            mapper.writeValue(System.out, result);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("end");
+
     }
 
 }

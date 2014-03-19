@@ -38,4 +38,9 @@ public class APIBinary {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "APIBinary={Name:" + name + ";Content-Length:" + content.length + "}";
+    }
 }

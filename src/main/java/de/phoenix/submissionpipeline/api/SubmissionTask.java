@@ -37,11 +37,11 @@ public class SubmissionTask {
     }
 
     public void addClass(PhoenixText clazz) {
-        this.classesToCompile.add(new APIText(clazz.getText(), clazz.getFullname()));
+        this.classesToCompile.add(new APIText(clazz.getText(), clazz.getName()));
     }
 
     public void addTest(PhoenixText test) {
-        this.tests.add(new APIText(test.getText(), test.getFullname()));
+        this.tests.add(new APIText(test.getText(), test.getName()));
     }
 
     public void addLibrary(PhoenixAttachment library) {

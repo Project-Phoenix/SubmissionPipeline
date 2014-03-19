@@ -21,22 +21,27 @@ package de.phoenix.submissionpipeline.api;
 public class APIText {
 
     private String content;
-    private String name;
+    private String className;
 
     protected APIText() {
 
     }
 
-    public APIText(String content, String name) {
+    public APIText(String content, String className) {
         this.content = content;
-        this.name = name;
+        this.className = className;
     }
 
     public String getContent() {
         return content;
     }
 
-    public String getName() {
-        return name;
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public String toString() {
+        return "APIText={ClassName:" + className + ";Content:" + content + "}";
     }
 }
