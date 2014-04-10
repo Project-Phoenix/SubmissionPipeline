@@ -34,7 +34,7 @@ public class CompileTask {
 
     private List<APIText> classes;
     private CharSequenceCompiler<Object> compiler;
-    
+
     public CompileTask(SubmissionTask task) {
         this.classes = task.getClassesToCompile();
         this.compiler = new CharSequenceCompiler<Object>();
@@ -52,7 +52,7 @@ public class CompileTask {
             List<Diagnostic<? extends JavaFileObject>> diagnostics = e.getDiagnostics().getDiagnostics();
             throw new UserSubmissionException(diagnostics.toString());
         }
-        
+
         return this.compiler;
     }
 
