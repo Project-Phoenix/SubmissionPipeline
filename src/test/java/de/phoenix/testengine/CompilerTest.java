@@ -31,10 +31,10 @@ public class CompilerTest {
     public void counterClassTest() throws ClassCastException, CharSequenceCompilerException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, CharacterCodingException {
         CharSequenceCompiler<Object> t = new CharSequenceCompiler<Object>();
         assertNotNull(t);
-        String javaSource = reader.read(getClass().getResourceAsStream("/testClasses/MyCounter.java"));
-        Class<?> clazz = t.compile("MyCounter", javaSource);
+        String javaSource = reader.read(getClass().getResourceAsStream("/testClasses/counter/goodImpl/Counter.java"));
+        Class<?> clazz = t.compile("Counter", javaSource);
         assertNotNull(clazz);
-        assertEquals("MyCounter", clazz.getName());
+        assertEquals("Counter", clazz.getName());
 
         Constructor<?> standardConstructor = clazz.getConstructor();
         assertNotNull(standardConstructor);
@@ -56,11 +56,11 @@ public class CompilerTest {
         CharSequenceCompiler<Object> t = new CharSequenceCompiler<Object>();
         assertNotNull(t);
 
-        String javaSource = reader.read(getClass().getResourceAsStream("/testClasses/MyBuilder.java"));
-        Class<?> clazz = t.compile("MyBuilder", javaSource);
+        String javaSource = reader.read(getClass().getResourceAsStream("/testClasses/builder/goodImpl/Builder.java"));
+        Class<?> clazz = t.compile("Builder", javaSource);
 
         assertNotNull(clazz);
-        assertEquals("MyBuilder", clazz.getName());
+        assertEquals("Builder", clazz.getName());
 
         Constructor<?> standardConstructor = clazz.getConstructor();
         assertNotNull(standardConstructor);
@@ -117,9 +117,9 @@ public class CompilerTest {
 
         Map<String, CharSequence> classesToCompile = new LinkedHashMap<String, CharSequence>();
 
-        String utilSource = reader.read(getClass().getResourceAsStream("/testClasses/util/Util.java"));
+        String utilSource = reader.read(getClass().getResourceAsStream("/testClasses/other/util/Util.java"));
 
-        String helloSource = reader.read(getClass().getResourceAsStream("/testClasses/HelloWorld.java"));
+        String helloSource = reader.read(getClass().getResourceAsStream("/testClasses/other/HelloWorld.java"));
         // Use not qualified class names
         classesToCompile.put("Util", utilSource);
         classesToCompile.put("HelloWorld", helloSource);
